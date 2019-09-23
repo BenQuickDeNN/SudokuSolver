@@ -1,0 +1,3 @@
+# set compiler
+CC=g++
+
