@@ -8,8 +8,16 @@
  * this project.
 *******************************************/
 
+#include "element.h"
+
+#include <cstdio>
+
+void test1();
+
 int main()
 {
+    /* test field */
+    test1();
     /* load sudoku file */
 
     /* initialize global vars */
@@ -25,4 +33,11 @@ int main()
     /* output the solution */
 
     return 0;
+}
+
+/* test for grid */
+void test1()
+{
+    printf("start test1...\r\n");
+    
 }
