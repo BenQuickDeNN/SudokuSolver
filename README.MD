@@ -1,7 +1,7 @@
 A project developed by Bin Qu to automatically solves Sudoku.
 
 # Algorithm
-# Main Structure
+## Main Structure
 ```mermaid
 graph TD
     START("start")-->LOAD["load files"]
@@ -22,4 +22,4 @@ graph TD
     ALF--no-->EXCLUDING
     OUTPUT-->END("end")
 ```
-# Excluding
+## Excluding
