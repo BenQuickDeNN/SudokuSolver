@@ -9,15 +9,19 @@
 *******************************************/
 
 #include "element.h"
+#include "FileHandler.h"
 
 #include <cstdio>
+#include <string>
 
 void test1();
+void test2();
 
 int main()
 {
     /* test field */
-    test1();
+    //test1();
+    test2();
     /* load sudoku file */
 
     /* initialize global vars */
@@ -62,4 +66,14 @@ void test1()
         }
         std::printf("\r\n");
     }
+}
+
+/* test for file handler */
+void test2()
+{
+    std::printf("start test2...\r\n");
+    std::string content =
+        sds::readText("bin/example/001.sds");
+    
+    std::printf("%s", content.c_str());
 }

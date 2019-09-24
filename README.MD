@@ -29,6 +29,7 @@ graph TD
 # Sudoku Game File Structure
 ## Example
 ```
+# no. 001 sudoku game
 grid_length = 9
 block_length = 3
 grid =
@@ -45,3 +46,40 @@ grid =
 ]
 ```
 note: '0' in grid matrix represents "empty".
+## FSM of Sudoku Game Script Language
+```mermaid
+graph LR
+    START--'#'-->S1
+    START--letter-->S2
+    START--space/enter-->S3
+    START--digit-->S4
+    START--'='-->S5
+    START--lb-->S6
+    START--rb-->S7
+    START--EOF-->EMPTY
+
+    S1--not enter/not EOF-->S1
+    S1--enter/EOF-->EMPTY
+
+    S2--letter/digit/underline-->S2
+    S2--'#'/'='/semi/space/enter/EOF-->VAR
+
+    S3--letter-->S2
+    S3--space/enter-->S3
+    S3--digit-->S4
+    S3--'='-->S5
+    S3--EOF-->EMPTY
+
+    S4--digit-->S4
+    S4--'#'/','/semi/space/enter/EOF-->DIGIT
+
+    S5--space/digit/enter/'#'/lb-->EQUAL
+
+    S6--space/digit/enter/'#'/-->LB
+
+    S7--space/enter/'#'/EOF-->RB
+```
+notes:
+1. "LB" represents '[', and "RB" represents ']'.
+2. "semi" represent ';'.
+3. S2, S4, S5, S6, S7 collects char elements.

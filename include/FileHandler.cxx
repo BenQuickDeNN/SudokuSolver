@@ -7,39 +7,33 @@
  * this file.
 *******************************************/
 
-//#include <string>   // string
+#include <cstdio>   // fprintf
+#include <fstream>  // handling file
+#include <string>   // string
 
-namespace sudoku_solver
+namespace sds
 {
-    class SudokuFile
+    /**
+     * @brief read text content from file
+     * @param filename file path
+     * @return text content
+    */
+    static std::string readText(const std::string& filename)
     {
-    private:
-
-        unsigned int gridsize;
-        unsigned int blocksize;
-        unsigned int numOfBlocks;
-
-    public:
-        /**
-        * @brief load sudoku game file
-        */
-        static void loadGame();
-
-        /**
-        * @brief output solution to file
-        */
-        static void outputSolution();
-
-        /**
-         * @brief constructor
-        */
-        SudokuFile(int gridsize, int blocksize)
-            : gridsize(gridsize), 
-            blocksize(blocksize)
+        std::string content;
+        std::string tempStr;
+        std::ifstream tmpFile(filename);
+        if (tmpFile.is_open())
         {
-            numOfBlocks = gridsize / blocksize;
-            numOfBlocks *= numOfBlocks;
+            while (std::getline(tmpFile, tempStr))
+                content += tempStr + "\n";
+            /* set EOF at last element */
+            content[content.size() - 1] = EOF;
         }
-        
-    };
+        else
+            std::fprintf(stderr, "cannot open the file \"%s\"\r\n",
+                filename.c_str());
+        tmpFile.close();
+        return content;
+    }
 }
