@@ -119,6 +119,7 @@ namespace sds
                 }
                 
             }
+            logError("not a completed token!", idx);
             return nullptr;
         }
 
