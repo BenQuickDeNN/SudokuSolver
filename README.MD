@@ -13,13 +13,15 @@ graph TD
     INII-->EXCLUDING["i-excluding"]
     EXCLUDING-->IF1{"any update?"}
     IF1--yes-->FILL2["fill lattices"]
-    IF1--no-->BI{"i<=nb?"}
-    BI--yes-->PLUSI["i++"]
-    PLUSI-->EXCLUDING
-    BI--no-->OUTPUT["output the solution"]
+    IF1--no-->PLUSI["i++"]
+    PLUSI-->BI{"i<=nb?"}
+    BI--yes-->EXCLUDING
+    BI--no-->ERR1["bad sudoku"]
     FILL2-->ALF{all filled?}
     ALF--yes-->OUTPUT
-    ALF--no-->EXCLUDING
+    ALF--no-->RESETI["reset i=1"]
+    RESETI-->EXCLUDING
     OUTPUT-->END("end")
+    ERR1-->END
 ```
 ## Excluding
