@@ -7,35 +7,69 @@
  * this file.
 *******************************************/
 
+#include "element.h"
+
 #include <cctype>
 #include <cstdio>
 #include <string>
 
 namespace sds
 {
+    /**
+     * Token type of lexer
+    */
     enum CSVTokType
     {
         tok_empty = -1,
         tok_digit = -2,
         tok_invalid = -3
     };
+
+    /**
+     * State of lexer
+    */
     enum CSVState
     {
         START, S1, S2
     };
+
+    /**
+     * Lexer that generates tokens in CSV file.
+    */
     class CSVLexer
     {
     private:
+        /**
+         * content index
+        */
         unsigned int idx = 0;
+        /**
+         * content line
+        */
         unsigned int line = 1;
+        /**
+         * content column
+        */
         unsigned int col = 1;
+        /**
+         * content text
+        */
         std::string content;
 
+        /**
+         * @brief handle error info
+         * @param info error information
+        */
         void logError(std::string info)
         { std::fprintf(stderr, "%s in line %d, col %d\r\n", info, line, col); }
 
     public:
 
+        /**
+         * @brief reset content index
+         * You should call this function
+         * before starting new lexing.
+        */
         void resetIdx() 
         {
             idx = 0;
@@ -43,6 +77,10 @@ namespace sds
             col = 1;
         }
 
+        /**
+         * @brief get token in csv file
+         * @return digital token or tokType
+        */
         int getCSVTok()
         {
             std::string digitStr;
@@ -116,8 +154,14 @@ namespace sds
             return CSVTokType::tok_empty;
         }
 
+        /**
+         * @brief constructor that inputs content
+         * @param content conttent text
+        */
         CSVLexer(const std::string& content)
             : content(content)
         { }
     };
+
+    
 }
