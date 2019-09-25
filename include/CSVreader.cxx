@@ -24,7 +24,8 @@ namespace sds
     {
         tok_empty = -1,
         tok_digit = -2,
-        tok_invalid = -3
+        tok_invalid = -3,
+        tok_eof = -4
     };
 
     /**
@@ -63,8 +64,7 @@ namespace sds
          * @param info error information
         */
         void logError(std::string info)
-        { std::fprintf(stderr, "lexxing error:\\
-             %s in line %d, col %d\r\n", info, line, col); }
+        { std::fprintf(stderr, "lexxing error: %s in line %d, col %d\r\n", info, line, col); }
 
     public:
 
@@ -86,10 +86,12 @@ namespace sds
         */
         int getCSVTok()
         {
+            if (idx >= content.size())
+                return CSVTokType::tok_eof;
             std::string digitStr;
             CSVState state = CSVState::START;
             char lastChar;
-            while (idx <= content.size())
+            while (idx < content.size())
             {
                 lastChar = content.c_str()[idx];
                 idx++;
@@ -142,7 +144,14 @@ namespace sds
                     else if (',' == lastChar ||
                         ' ' == lastChar || '\n' == lastChar ||
                         EOF == lastChar)
+                    {
+                        if ('\n' == lastChar)
+                        {
+                            line++;
+                            col = 1;
+                        }
                         return std::stoi(digitStr);
+                    }
                     else
                     {
                         logError("invalid symbol " + lastChar);
@@ -174,27 +183,22 @@ namespace sds
     static Grid* CSVtoGrid(std::string filename)
     {
         std::string content = readText(filename);
-        std::printf("read csv file %s...done\r\n", filename);
-        int contentIdx = 0;
+        std::printf("read csv file %s...done\r\n", filename.c_str());
         int tmpChar;
         unsigned int idx = 0;
         char buf[content.size()];
         CSVLexer csvlexer(content);
         csvlexer.resetIdx();
-        while (true)
+        for (int i = 0; i < content.size(); i++)
         {
             tmpChar = csvlexer.getCSVTok();
+            if (tmpChar == CSVTokType::tok_eof)
+                break;
             if (tmpChar != CSVTokType::tok_empty &&
                 tmpChar != CSVTokType::tok_invalid)
             {
                 buf[idx] = tmpChar;
                 idx++;
-            }
-            contentIdx++;
-            if (contentIdx > content.size())
-            {
-                std::fprintf(stderr, "no enough digits!\r\n");
-                return nullptr;
             }
         }
         std::printf("csv lexing done.\r\n");
@@ -205,14 +209,14 @@ namespace sds
             idx != 64*64 && idx != 81*81 && idx != 100*100
         )
         {
-            std::fprintf(stderr, "error: %s is not\\
-                 a sudoku game file\r\n", filename);
+            std::fprintf(stderr, "error: %s is not a sudoku game file\r\n", filename);
             return nullptr;
         }
         /* initialize a grid */
         unsigned int length = idx;
         unsigned int blocklength = std::sqrt(idx);
-        Grid grid(length, blocklength);
+        /* add static modifier to keep grid global */
+        static Grid grid(length, blocklength);
         for (int i = 0; i < blocklength; i++)
             for (int j = 0; j < blocklength; j++)
                 grid(i, j) = buf[i * blocklength + j];

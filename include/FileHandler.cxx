@@ -18,7 +18,7 @@ namespace sds
      * @param filename file path
      * @return text content
     */
-    static std::string readText(const std::string& filename)
+    static std::string readText(std::string filename)
     {
         std::string content;
         std::string tempStr;
