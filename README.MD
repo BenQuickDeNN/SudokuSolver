@@ -16,17 +16,17 @@ graph TD
     IF1--no-->PLUSI["i++"]
     PLUSI-->BI{"i<=nb?"}
     BI--yes-->EXCLUDING
-    BI--no-->ERR1["bad sudoku"]
+    BI--no-->EXM["try exhaustive method"]
     FILL2-->ALF{all filled?}
     ALF--yes-->OUTPUT
     ALF--no-->RESETI["reset i=1"]
     RESETI-->EXCLUDING
     OUTPUT-->END("end")
-    ERR1-->END
+    EXM-->END
 ```
 ## Excluding
 
-# Sudoku Game File Structure
+# Sudoku Game File Structure (Deprecated)
 ## Example
 ```
 # no. 001 sudoku game
