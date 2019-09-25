@@ -8,6 +8,7 @@
  * this project.
 *******************************************/
 
+#include "CSVreader.h"
 #include "element.h"
 #include "FileHandler.h"
 
@@ -73,7 +74,39 @@ void test2()
 {
     std::printf("start test2...\r\n");
     std::string content =
-        sds::readText("bin/example/001.sds");
+        sds::readText("bin/example/001.csv");
     
-    std::printf("%s", content.c_str());
+    std::printf("%s\r\n", content.c_str());
+    /* test Lexer */
+    char gridMatrix[81];
+    unsigned char tmpChar;
+    sds::CSVLexer csvlexer(content);
+    csvlexer.resetIdx();
+    int idx = 0;
+    int contentIdx = 0;
+    
+    while (idx < 81)
+    {
+        tmpChar = csvlexer.getCSVTok();
+        if (tmpChar != sds::CSVTokType::tok_empty &&
+            tmpChar != sds::CSVTokType::tok_invalid)
+        {
+            gridMatrix[idx] = tmpChar;
+            idx++;
+        }
+        contentIdx++;
+        if (contentIdx > content.size())
+        {
+            std::fprintf(stderr, "no enough digits!\r\n");
+            break;
+        }
+    }
+
+    std::printf("print csv matrix:\r\n");
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+            std::printf("%d\t", gridMatrix[i * 9 + j]);
+        std::printf("\r\n");
+    }
 }

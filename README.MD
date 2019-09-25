@@ -26,8 +26,8 @@ graph TD
 ```
 ## Excluding
 
-# Sudoku Game File Structure (Deprecated)
-## Example
+# Sudoku Game File Structure
+## Example (Deprecated)
 ```
 # no. 001 sudoku game
 grid_length = 9
@@ -46,7 +46,7 @@ grid =
 ]
 ```
 note: '0' in grid matrix represents "empty".
-## FSM of Sudoku Game Script Language
+## FSM of Sudoku Game Script Language (Deprecated)
 ```mermaid
 graph LR
     START--'#'-->S1
@@ -83,3 +83,32 @@ notes:
 1. "LB" represents '[', and "RB" represents ']'.
 2. "semi" represent ';'.
 3. S2, S4, S5, S6, S7 collects char elements.
+
+## Example of CSV Sudoku Game File
+```
+7,9,2,0,0,5,4,0,0
+0,0,8,0,2,0,0,6,0
+0,5,4,3,9,8,0,0,0
+2,0,5,7,0,0,0,0,3
+8,0,3,1,0,0,5,0,0
+1,7,0,5,3,4,8,2,6
+0,3,0,9,0,1,0,8,0
+0,8,7,0,0,0,0,0,0
+0,0,0,0,4,6,3,0,0
+```
+note: '0' in csv file represents "empty".
+
+## FSM of CSV File Reader
+```mermaid
+graph LR
+    START--space-->S1
+    START--digit-->S2
+    START--enter/EOF-->EMPTY
+
+    S1--space-->S1
+    S1--digit-->S2
+    S1--enter/EOF-->EMPTY
+
+    S2--digit-->S2
+    S2--','/space/enter/EOF-->DIGIT
+```
