@@ -79,12 +79,12 @@ void test2()
     std::printf("%s\r\n", content.c_str());
     /* test Lexer */
     char gridMatrix[81];
-    unsigned char tmpChar;
+    char tmpChar;
     sds::CSVLexer csvlexer(content);
     csvlexer.resetIdx();
     int idx = 0;
     int contentIdx = 0;
-    
+
     while (idx < 81)
     {
         tmpChar = csvlexer.getCSVTok();

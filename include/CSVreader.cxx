@@ -8,8 +8,10 @@
 *******************************************/
 
 #include "element.h"
+#include "FileHandler.h"
 
 #include <cctype>
+#include <cmath>
 #include <cstdio>
 #include <string>
 
@@ -61,7 +63,8 @@ namespace sds
          * @param info error information
         */
         void logError(std::string info)
-        { std::fprintf(stderr, "%s in line %d, col %d\r\n", info, line, col); }
+        { std::fprintf(stderr, "lexxing error:\\
+             %s in line %d, col %d\r\n", info, line, col); }
 
     public:
 
@@ -163,5 +166,56 @@ namespace sds
         { }
     };
 
-    
+    /**
+     * @brief convert csv data to grid entity
+     * @param filename csv file path
+     * @return grid entity
+    */
+    static Grid* CSVtoGrid(std::string filename)
+    {
+        std::string content = readText(filename);
+        std::printf("read csv file %s...done\r\n", filename);
+        int contentIdx = 0;
+        int tmpChar;
+        unsigned int idx = 0;
+        char buf[content.size()];
+        CSVLexer csvlexer(content);
+        csvlexer.resetIdx();
+        while (true)
+        {
+            tmpChar = csvlexer.getCSVTok();
+            if (tmpChar != CSVTokType::tok_empty &&
+                tmpChar != CSVTokType::tok_invalid)
+            {
+                buf[idx] = tmpChar;
+                idx++;
+            }
+            contentIdx++;
+            if (contentIdx > content.size())
+            {
+                std::fprintf(stderr, "no enough digits!\r\n");
+                return nullptr;
+            }
+        }
+        std::printf("csv lexing done.\r\n");
+        /* check if the grid is a square? */
+        if (
+            idx != 4*4 && idx != 9*9 && idx != 16*16 &&
+            idx != 25*25 && idx != 36*36 && idx != 49*49 &&
+            idx != 64*64 && idx != 81*81 && idx != 100*100
+        )
+        {
+            std::fprintf(stderr, "error: %s is not\\
+                 a sudoku game file\r\n", filename);
+            return nullptr;
+        }
+        /* initialize a grid */
+        unsigned int length = idx;
+        unsigned int blocklength = std::sqrt(idx);
+        Grid grid(length, blocklength);
+        for (int i = 0; i < blocklength; i++)
+            for (int j = 0; j < blocklength; j++)
+                grid(i, j) = buf[i * blocklength + j];
+        return &grid;
+    }
 }
