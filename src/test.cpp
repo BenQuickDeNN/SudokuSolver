@@ -89,4 +89,19 @@ void test3()
             std::printf("%d\t", (*grid)(i, j));
         std::printf("\r\n");
     }
+    std::printf("grid length = %d\r\n", grid->Length());
+    /* test update mask */
+    grid->updateMask();
+    std::printf("print digit mask:\r\n");
+    for (char digit = 1; digit <= grid->Length(); digit++)
+    {
+        std::printf("digit %d mask:\r\n", digit);
+        for (int i = 0; i < grid->Length(); i++)
+        {
+            for (int j = 0; j < grid->Length(); j++)
+                std::printf("%d\t", (*grid)(i, j, digit));
+            std::printf("\r\n");
+        }
+    }
+    
 }

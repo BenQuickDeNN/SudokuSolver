@@ -213,13 +213,13 @@ namespace sds
             return nullptr;
         }
         /* initialize a grid */
-        unsigned int length = idx;
-        unsigned int blocklength = std::sqrt(idx);
+        unsigned int length = std::sqrt(idx);
+        unsigned int blocklength = std::sqrt(length);
         /* add static modifier to keep grid global */
         static Grid grid(length, blocklength);
-        for (int i = 0; i < blocklength; i++)
-            for (int j = 0; j < blocklength; j++)
-                grid(i, j) = buf[i * blocklength + j];
+        for (int i = 0; i < length; i++)
+            for (int j = 0; j < length; j++)
+                grid(i, j) = buf[i * length + j];
         return &grid;
     }
 }
