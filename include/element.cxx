@@ -212,53 +212,46 @@ typedef unsigned char byte;
         /**
          * @brief fill blanks that only conains one
          * candidate.
+         * @return is update?
         */
-        void fill()
+        bool fill()
         {
             std::printf("fill blanks...\r\n");
             /* traversing lefttop to rightdown */
             unsigned int sizegrid = length * length;
+            byte tmpMask;
+            unsigned int tmpLat;
+            bool canFill;
+            bool isUpdated = false;
             for (int i = 0; i < sizegrid; i++)
             {
                 if (lattices[i] == 0)
                 {
+                    /*
+                    tmpMask = 0;
                     for (int j = 0; j < mask_cell_len; j++)
+                        tmpMask |= mask[i * mask_cell_len + j];
+                    */
+                    tmpLat = 0;
+                    canFill = true;
+                    for (int j = 0; j < mask_cell_len && canFill; j++)
+                        for (int k = 0; k < len_byte; k++)
+                            if (mask[i * mask_cell_len + j] == (1 << k))
+                            {
+                                tmpLat += (k + 1) + j * len_byte;
+                                break;
+                            }
+                            else if (mask[i * mask_cell_len + j] != 0)
+                                canFill = false;
+                    /* check tmpLat */
+                    if (tmpLat <= length && tmpLat >= 1)
                     {
-                        switch (mask[i * mask_cell_len + j])
-                        {
-                        case 1:
-                            lattices[i] += j * len_byte + 1;
-                            break;
-                        case 2:
-                            lattices[i] += j * len_byte + 2;
-                            break;
-                        case 4:
-                            lattices[i] += j * 8 + 3;
-                            break;
-                        case 8:
-                            lattices[i] += j * 8 + 4;
-                            break;
-                        case 16:
-                            lattices[i] += j * 8 + 5;
-                            break;
-                        case 32:
-                            lattices[i] += j * 8 + 6;
-                            break;
-                        case 64:
-                            lattices[i] += j * 8 + 7;
-                            break;
-                        case 128:
-                            lattices[i] += j * 8 + 8;
-                            break;
-                        default:
-                            break;
-                        }
+                        lattices[i] = tmpLat;
+                        isUpdated = true;
                     }
-                    /* check lattice value */
-                    if (lattices[i] > length)
-                        lattices[i] = 0;
                 }
             }
+            return isUpdated;
         }
 
         /**
