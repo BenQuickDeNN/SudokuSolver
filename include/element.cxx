@@ -14,7 +14,7 @@
 /// namespace sudoku solver
 namespace sds
 {   
-typedef char byte;
+typedef unsigned char byte;
     class Grid
     {
     private:
@@ -29,7 +29,7 @@ typedef char byte;
         byte* mask;
         unsigned int mask_len;
         unsigned int mask_cell_len;
-        const byte len_byte = sizeof(byte);
+        const byte len_byte = 8;
 
         /**
          * @brief get upper bound
@@ -104,7 +104,7 @@ typedef char byte;
                 j * mask_cell_len +
                 (my_ceil(digit, len_byte) - 1)] &
                 (0x01 << ((digit - 1) % len_byte))) >>
-                (digit % len_byte);
+                ((digit - 1) % len_byte);
         }
 
         /**
@@ -120,14 +120,18 @@ typedef char byte;
             {
                 /* initialize buffer mask */
                 for (int i = 0; i < mask_cell_len; i++)
+                {
                     buf_mask[i] = 0xFF;
+                    if (i == mask_cell_len - 1)
+                        buf_mask[i] >>= len_byte - length % len_byte;
+                }
 
                 /* modify buffer mask */
                 for (int i = (row - 1) * length;
                     i < row * length; i++)
                     if (lattices[i] != 0)
                         buf_mask[my_ceil(lattices[i], len_byte) - 1] &=
-                            (0xFE << ((lattices[i] - 1) % len_byte));
+                            ~(0x01 << ((lattices[i] - 1) % len_byte));
                 
                 /* set mask (I suggest to vectorize this loop) */
                 for (int i = (row - 1) * length * mask_cell_len;
@@ -143,14 +147,18 @@ typedef char byte;
             {
                 /* initialize buffer mask */
                 for (int i = 0; i < mask_cell_len; i++)
+                {
                     buf_mask[i] = 0xFF;
+                    if (i == mask_cell_len - 1)
+                        buf_mask[i] >>= len_byte - length % len_byte;
+                }
                 
                 /* modify buffer mask */
                 for (int i = col - 1; i < sizegrid - length + col;
                     i += length)
                     if (lattices[i] != 0)
                         buf_mask[my_ceil(lattices[i], len_byte) - 1] &=
-                            (0xFE << ((lattices[i] - 1) % len_byte));
+                            ~(0x01 << ((lattices[i] - 1) % len_byte));
                 
                 /* set mask */
                 for (int i = col - 1; i < sizegrid - length + col;
@@ -166,7 +174,11 @@ typedef char byte;
                 {
                     /* initialize buffer mask */
                     for (int i = 0; i < mask_cell_len; i++)
+                    {
                         buf_mask[i] = 0xFF;
+                        if (i == mask_cell_len - 1)
+                            buf_mask[i] >>= len_byte - length % len_byte;
+                    }
                     
                     /* modify buffer mask */
                     for (int i = (block_y - 1) * blocklength;
@@ -177,7 +189,7 @@ typedef char byte;
                             unsigned int k = i * length + j;
                             if (lattices[k] != 0)
                                 buf_mask[my_ceil(lattices[k], len_byte) - 1] &=
-                                    (0xFE << ((lattices[k] - 1) % len_byte));
+                                    ~(0x01 << ((lattices[k] - 1) % len_byte));
                         }
 
                     /* set mask */
@@ -189,7 +201,74 @@ typedef char byte;
                                 mask[i * length * mask_cell_len +
                                      j * mask_cell_len + k] &= buf_mask[k];
                 }
-            
+
+            /* scan where mask should be 0 */
+            for (int i = 0; i < sizegrid; i++)
+                if (lattices[i] != 0)
+                    for (int j = 0; j < mask_cell_len; j++)
+                        mask[i * mask_cell_len + j] = 0;
+        }
+
+        /**
+         * @brief fill blanks that only conains one
+         * candidate.
+        */
+        void fill()
+        {
+            std::printf("fill blanks...\r\n");
+            /* traversing lefttop to rightdown */
+            unsigned int sizegrid = length * length;
+            for (int i = 0; i < sizegrid; i++)
+            {
+                if (lattices[i] == 0)
+                {
+                    for (int j = 0; j < mask_cell_len; j++)
+                    {
+                        switch (mask[i * mask_cell_len + j])
+                        {
+                        case 1:
+                            lattices[i] += j * len_byte + 1;
+                            break;
+                        case 2:
+                            lattices[i] += j * len_byte + 2;
+                            break;
+                        case 4:
+                            lattices[i] += j * 8 + 3;
+                            break;
+                        case 8:
+                            lattices[i] += j * 8 + 4;
+                            break;
+                        case 16:
+                            lattices[i] += j * 8 + 5;
+                            break;
+                        case 32:
+                            lattices[i] += j * 8 + 6;
+                            break;
+                        case 64:
+                            lattices[i] += j * 8 + 7;
+                            break;
+                        case 128:
+                            lattices[i] += j * 8 + 8;
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                    /* check lattice value */
+                    if (lattices[i] > length)
+                        lattices[i] = 0;
+                }
+            }
+        }
+
+        /**
+         * @brief use i-excluding algorithm to further modify
+         * mask.
+         * @return is any update?
+        */
+        bool excluding()
+        {
+
         }
 
         /**
@@ -208,7 +287,7 @@ typedef char byte;
                 lattices[i] = 0;
 
             /* allocate memory for mask */
-            mask_cell_len = my_ceil(length, sizeof(byte));
+            mask_cell_len = my_ceil(length, len_byte);
             mask_len = Size() * mask_cell_len;
             mask = (byte*)std::malloc(mask_len *
                 sizeof(byte));

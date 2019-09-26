@@ -86,12 +86,13 @@ void test3()
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)
-            std::printf("%d\t", (*grid)(i, j));
+            std::printf("%d,", (*grid)(i, j));
         std::printf("\r\n");
     }
     std::printf("grid length = %d\r\n", grid->Length());
     /* test update mask */
     grid->updateMask();
+    
     std::printf("print digit mask:\r\n");
     for (char digit = 1; digit <= grid->Length(); digit++)
     {
@@ -99,9 +100,48 @@ void test3()
         for (int i = 0; i < grid->Length(); i++)
         {
             for (int j = 0; j < grid->Length(); j++)
-                std::printf("%d\t", (*grid)(i, j, digit));
+                std::printf("%d,", (*grid)(i, j, digit));
             std::printf("\r\n");
         }
     }
+
+    std::printf("print tiled digit mask:\r\n");
+    int tmpNum;
+    for (int i = 0; i < grid->Length(); i++)
+    {
+        for (int j = 0; j < grid->Length(); j++)
+        {   
+            tmpNum = 0;
+            for (char digit = 1; digit <= grid->Length(); digit++)
+                tmpNum += (*grid)(i, j, digit);
+            
+            std::printf("%d,", tmpNum);
+            //std::printf("\r\n");
+        }
+        std::printf("\r\n");
+    }
     
+    grid->fill();
+    grid->updateMask();
+    std::printf("print grid:\r\n");
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+            std::printf("%d,", (*grid)(i, j));
+        std::printf("\r\n");
+    }
+
+    /*
+    std::printf("print digit mask:\r\n");
+    for (char digit = 1; digit <= grid->Length(); digit++)
+    {
+        std::printf("digit %d mask:\r\n", digit);
+        for (int i = 0; i < grid->Length(); i++)
+        {
+            for (int j = 0; j < grid->Length(); j++)
+                std::printf("%d,", (*grid)(i, j, digit));
+            std::printf("\r\n");
+        }
+    }
+    */
 }

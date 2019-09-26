@@ -9,7 +9,7 @@ graph TD
     INIT-->NOB["compute the number of blocks nb=n/m"]
     NOB-->GC["generate candidates"]
     GC-->FILL1["fill lattices"]
-    FILL1-->INII["initialize i=1"]
+    FILL1-->INII["initialize i=2"]
     INII-->EXCLUDING["i-excluding"]
     EXCLUDING-->IF1{"any update?"}
     IF1--yes-->FILL2["fill lattices"]
@@ -19,14 +19,30 @@ graph TD
     BI--no-->EXM["try exhaustive method"]
     FILL2-->ALF{all filled?}
     ALF--yes-->OUTPUT
-    ALF--no-->RESETI["reset i=1"]
+    ALF--no-->RESETI["reset i=2"]
     RESETI-->EXCLUDING
     OUTPUT-->END("end")
     EXM-->END
 ```
 ## Excluding
+```mermaid
+graph TD
+    START-->INTI["i = 2"]
+    INTI-->ROWS["row scan: find no less than i masks with the same candidate intersections"]
+    ROWS-->COLS["col scan: find no less than i masks with the same candidate intersections"]
+    COLS-->BLOCKS["block scan: find no less than i masks with the same candidate intersections"]
+    BLOCKS-->AUPDATE{"any candidate update?"}
+    AUPDATE--yes-->FILL["fill with single candidate"]
+    FILL-->UDMASK["update mask"]
+    UDMASK-->RESETI["reset i = 2"]
+    AUPDATE--no-->INCI["i += 1"]
+    RESETI-->ROWS
+    INCI-->CHECKI{"i > the number of nonzero units?"}
+    CHECKI--yes-->ROWS
+    CHECKI--no-->EXMTD("try exhaustive method")
+```
 
-# Sudoku Game File Structure
+# Sudoku File Structure
 ## Example (Deprecated)
 ```
 # no. 001 sudoku game
@@ -46,7 +62,7 @@ grid =
 ]
 ```
 note: '0' in grid matrix represents "empty".
-## FSM of Sudoku Game Script Language (Deprecated)
+## FSM of Sudoku Script Language (Deprecated)
 ```mermaid
 graph LR
     START--'#'-->S1
@@ -84,7 +100,7 @@ notes:
 2. "semi" represent ';'.
 3. S2, S4, S5, S6, S7 collects char elements.
 
-## Example of CSV Sudoku Game File
+## Example of CSV Sudoku File
 ```
 7,9,2,0,0,5,4,0,0
 0,0,8,0,2,0,0,6,0
