@@ -91,8 +91,9 @@ void test3()
     }
     std::printf("grid length = %d\r\n", grid->Length());
     /* test update mask */
-    grid->updateMask();
+    grid->initializeMask();
     
+    /*
     std::printf("print digit mask:\r\n");
     for (char digit = 1; digit <= grid->Length(); digit++)
     {
@@ -104,6 +105,7 @@ void test3()
             std::printf("\r\n");
         }
     }
+    */
 
     std::printf("print tiled digit mask:\r\n");
     int tmpNum;
@@ -122,7 +124,7 @@ void test3()
     }
     
     grid->fill();
-    grid->updateMask();
+    grid->initializeMask();
     std::printf("print grid:\r\n");
     for (int i = 0; i < 9; i++)
     {

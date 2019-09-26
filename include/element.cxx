@@ -110,7 +110,7 @@ typedef unsigned char byte;
         /**
          * @update candidated digit mask
         */
-        void updateMask()
+        void initializeMask()
         {
             byte buf_mask[mask_cell_len];
             /* scan lattice */
@@ -227,11 +227,6 @@ typedef unsigned char byte;
             {
                 if (lattices[i] == 0)
                 {
-                    /*
-                    tmpMask = 0;
-                    for (int j = 0; j < mask_cell_len; j++)
-                        tmpMask |= mask[i * mask_cell_len + j];
-                    */
                     tmpLat = 0;
                     canFill = true;
                     for (int j = 0; j < mask_cell_len && canFill; j++)
