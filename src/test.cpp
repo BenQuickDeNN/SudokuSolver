@@ -123,8 +123,8 @@ void test3()
         std::printf("\r\n");
     }
     
-    grid->fill();
-    grid->initializeMask();
+    while(grid->fill()) {}
+
     std::printf("print grid:\r\n");
     for (int i = 0; i < 9; i++)
     {
@@ -146,4 +146,19 @@ void test3()
         }
     }
     */
+
+    std::printf("print tiled digit mask:\r\n");
+    for (int i = 0; i < grid->Length(); i++)
+    {
+        for (int j = 0; j < grid->Length(); j++)
+        {   
+            tmpNum = 0;
+            for (char digit = 1; digit <= grid->Length(); digit++)
+                tmpNum += (*grid)(i, j, digit);
+            
+            std::printf("%d,", tmpNum);
+            //std::printf("\r\n");
+        }
+        std::printf("\r\n");
+    }
 }

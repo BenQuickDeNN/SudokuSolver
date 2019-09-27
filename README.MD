@@ -101,6 +101,7 @@ notes:
 3. S2, S4, S5, S6, S7 collects char elements.
 
 ## Example of CSV Sudoku File
+001.csv
 ```
 7,9,2,0,0,5,4,0,0
 0,0,8,0,2,0,0,6,0

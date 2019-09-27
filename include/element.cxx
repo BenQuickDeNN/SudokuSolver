@@ -34,7 +34,7 @@ typedef unsigned char byte;
         /**
          * @brief get upper bound
         */
-        inline byte my_ceil(byte a, byte b)
+        static inline byte my_ceil(byte a, byte b)
         { return (a + b - 1) / b; }
 
         /**
@@ -210,6 +210,102 @@ typedef unsigned char byte;
         }
 
         /**
+         * @brief update the a row of mask.
+         * @param row row number.
+        */
+        void update_row_mask(unsigned int row)
+        {
+            byte buf_mask[mask_cell_len];
+            /* initialize buffer mask */
+            for (int i = 0; i < mask_cell_len; i++)
+            {
+                buf_mask[i] = 0xFF;
+                if (i == mask_cell_len - 1)
+                    buf_mask[i] >>= len_byte - length % len_byte;
+            }
+            /* modify buffer mask */
+            for (int i = (row - 1) * length;
+                i < row * length; i++)
+                if (lattices[i] != 0)
+                    buf_mask[my_ceil(lattices[i], len_byte) - 1] &=
+                        ~(0x01 << ((lattices[i] - 1) % len_byte));
+                
+            /* set mask (I suggest to vectorize this loop) */
+            for (int i = (row - 1) * length * mask_cell_len;
+                i < row * length * mask_cell_len; i++)
+                    mask[i] &= buf_mask[i % mask_cell_len];
+        }
+
+        /**
+         * @brief update column mask
+         * @@param col column number
+        */
+        void update_col_mask(unsigned int col)
+        {
+            byte buf_mask[mask_cell_len];
+            unsigned int sizegrid = Size();
+            /* initialize buffer mask */
+            for (int i = 0; i < mask_cell_len; i++)
+            {
+                buf_mask[i] = 0xFF;
+                if (i == mask_cell_len - 1)
+                    buf_mask[i] >>= len_byte - length % len_byte;
+            }
+                
+            /* modify buffer mask */
+            for (int i = col - 1; i < sizegrid - length + col;
+                i += length)
+                if (lattices[i] != 0)
+                    buf_mask[my_ceil(lattices[i], len_byte) - 1] &=
+                        ~(0x01 << ((lattices[i] - 1) % len_byte));
+                
+            /* set mask */
+            for (int i = col - 1; i < sizegrid - length + col;
+                i += length)
+                for (int j = 0; j < mask_cell_len; j++)
+                    mask[i * mask_cell_len + j] &= buf_mask[j];
+        }
+
+        /**
+         * @brief update mask trough block
+         * @param block_y y axis of block
+         * @param block_x x axis of block
+        */
+        void update_block_mask(unsigned int block_y,
+            unsigned int block_x)
+        {
+            byte buf_mask[mask_cell_len];
+            /* initialize buffer mask */
+            for (int i = 0; i < mask_cell_len; i++)
+            {
+                buf_mask[i] = 0xFF;
+                if (i == mask_cell_len - 1)
+                    buf_mask[i] >>= len_byte - length % len_byte;
+            }
+                    
+            /* modify buffer mask */
+            for (int i = (block_y - 1) * blocklength;
+                i < block_y * blocklength; i++)
+                for (int j = (block_x - 1) * blocklength;
+                    j < block_x * blocklength; j++)
+                {
+                    unsigned int k = i * length + j;
+                    if (lattices[k] != 0)
+                        buf_mask[my_ceil(lattices[k], len_byte) - 1] &=
+                            ~(0x01 << ((lattices[k] - 1) % len_byte));
+                }
+
+            /* set mask */
+            for (int i = (block_y - 1) * blocklength;
+                i < block_y * blocklength; i++)
+                for (int j = (block_x - 1) * blocklength;
+                    j < block_x * blocklength; j++)
+                    for (int k = 0; k < mask_cell_len; k++)
+                        mask[i * length * mask_cell_len +
+                                j * mask_cell_len + k] &= buf_mask[k];
+        }
+
+        /**
          * @brief fill blanks that only conains one
          * candidate.
          * @return is update?
@@ -234,6 +330,7 @@ typedef unsigned char byte;
                             if (mask[i * mask_cell_len + j] == (1 << k))
                             {
                                 tmpLat += (k + 1) + j * len_byte;
+                                canFill = true;
                                 break;
                             }
                             else if (mask[i * mask_cell_len + j] != 0)
@@ -242,6 +339,12 @@ typedef unsigned char byte;
                     if (tmpLat <= length && tmpLat >= 1)
                     {
                         lattices[i] = tmpLat;
+                        update_row_mask( i / length + 1);
+                        update_col_mask(i % length + 1);
+                        update_block_mask((i / length) / blocklength + 1,
+                            (i % length) / blocklength + 1);
+                        for (int j = 0; j < mask_cell_len; j++)
+                            mask[i * mask_cell_len + j] = 0;
                         isUpdated = true;
                     }
                 }
