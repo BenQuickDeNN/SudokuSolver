@@ -79,7 +79,7 @@ void test2()
 /* test for csv reader */
 void test3()
 {
-    sds::Grid* grid = sds::CSVtoGrid("bin/example/001.csv");
+    sds::Grid* grid = sds::CSVtoGrid("bin/example/002.csv");
     if (grid == nullptr)
         return;
     std::printf("print csv matrix:\r\n");
@@ -93,7 +93,7 @@ void test3()
     /* test update mask */
     grid->initializeMask();
     
-    /*
+    
     std::printf("print digit mask:\r\n");
     for (char digit = 1; digit <= grid->Length(); digit++)
     {
@@ -105,8 +105,8 @@ void test3()
             std::printf("\r\n");
         }
     }
-    */
-
+    
+    /*
     std::printf("print tiled digit mask:\r\n");
     int tmpNum;
     for (int i = 0; i < grid->Length(); i++)
@@ -122,8 +122,24 @@ void test3()
         }
         std::printf("\r\n");
     }
+    */
     
-    while(grid->fill()) {}
+    unsigned int ie = 2;
+    while (true)
+    {
+        while(grid->fill()) { std::printf("fill blanks...\r\n"); }
+        if (grid->isCompleted())
+            break;
+        if (grid->excluding(ie))
+        {
+            std::printf("exclude mask; ie = %d...\r\n", ie);
+            ie = 2;
+            continue;
+        }
+        ie++;
+        if (ie > grid->Length())
+            break;
+    }
 
     std::printf("print grid:\r\n");
     for (int i = 0; i < 9; i++)
@@ -147,6 +163,7 @@ void test3()
     }
     */
 
+   unsigned int tmpNum;
     std::printf("print tiled digit mask:\r\n");
     for (int i = 0; i < grid->Length(); i++)
     {
@@ -161,4 +178,7 @@ void test3()
         }
         std::printf("\r\n");
     }
+
+    if (grid->isCompleted())
+        std::printf("the sudoku is compelted\r\n");
 }

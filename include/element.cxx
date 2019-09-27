@@ -142,7 +142,7 @@ typedef unsigned char byte;
             /* column scan */
             std::printf("update column mask...\r\n");
             /* use scalar to help implement parallelism */
-            unsigned int sizegrid = Size();
+            const unsigned int sizegrid = Size();
             for (int col = 1; col <= length; col++)
             {
                 /* initialize buffer mask */
@@ -243,7 +243,7 @@ typedef unsigned char byte;
         void update_col_mask(unsigned int col)
         {
             byte buf_mask[mask_cell_len];
-            unsigned int sizegrid = Size();
+            const unsigned int sizegrid = Size();
             /* initialize buffer mask */
             for (int i = 0; i < mask_cell_len; i++)
             {
@@ -312,9 +312,8 @@ typedef unsigned char byte;
         */
         bool fill()
         {
-            std::printf("fill blanks...\r\n");
             /* traversing lefttop to rightdown */
-            unsigned int sizegrid = length * length;
+            const unsigned int sizegrid = length * length;
             byte tmpMask;
             unsigned int tmpLat;
             bool canFill;
@@ -353,13 +352,224 @@ typedef unsigned char byte;
         }
 
         /**
+         * @brief judge if a sudoku is completed
+         * @return is the sudoku completed?
+        */
+        bool isCompleted()
+        {
+            /* scan all lattice */
+            const unsigned int sizegrid = Size();
+            for (int i = 0; i < sizegrid; i++)
+                if (lattices[i] == 0)
+                    return false;
+            return true;
+        }
+
+        /**
          * @brief use i-excluding algorithm to further modify
          * mask.
+         * @param i how many bits are referenced?
          * @return is any update?
         */
-        bool excluding()
+        bool excluding(const unsigned int& ie)
         {
+            if (ie < 2)
+            {
+                std::fprintf(stderr, "i-excluding: i should not less than 2\r\n");
+                return false;
+            }
+            if (ie > length)
+            {
+                std::fprintf(stderr, "i-excluding: i should not larger than %d\r\n", length);
+                return false;
+            }
+            bool isAnyUpdate = false;
+            /* scan candidate, from begin to the end */
+            const unsigned int sizegrid = Size();
+            unsigned int bitcounter;
+            const byte bitFilter = 0x01;
+            byte clueMask[mask_cell_len];
+            byte tmpByte;
+            unsigned int cluecounter;
+            unsigned int sIdx;
+            unsigned int eIdx;
+            bool tmpBool;
+            for (int i = 0; i < sizegrid; i++)
+            {
+                /* filt non-empty lattices */
+                if (lattices[i] != 0)
+                    continue;
+                /* check if the mask is with no more than\\
+                ie positive bits */
+                bitcounter = 0;
+                for (int j = 0; j < mask_cell_len; j++)
+                    for (int k = 0; k < len_byte; k++)
+                        bitcounter += ((mask[i * mask_cell_len + j] &
+                            (bitFilter << k)) != 0);
+                /* filt those mask that bitcount is larger\\
+                than ie */
+                if (bitcounter > ie || bitcounter == 0)
+                    continue;
 
+                for (int j = 0; j < mask_cell_len; j++)
+                    clueMask[j] = mask[i * mask_cell_len + j];
+                
+                /* row scan */
+                sIdx= (i / length) * length;
+                eIdx = sIdx + length;
+                cluecounter = 0;
+                for (int j = sIdx; j < eIdx; j++)
+                {
+                    /* excluding mask = 0 */
+                    tmpByte = 0;
+                    for (int k = 0; k < mask_cell_len; k++)
+                        tmpByte |= mask[j * mask_cell_len + k];
+                    if (tmpByte == 0)
+                        continue;
+                    tmpBool = true;
+                    for (int k = 0; k < mask_cell_len && tmpBool; k++)
+                        if ((clueMask[k] | mask[j * mask_cell_len + k]) !=
+                            clueMask[k])
+                            tmpBool = false;
+                    if (tmpBool)
+                        cluecounter++;
+                    if (cluecounter >= ie)
+                    {
+                        /* scan the row and eliminate non-clues */
+                        for (int k = sIdx; k < eIdx; k++)
+                        {
+                            tmpByte = 0;
+                            for (int l = 0; l < mask_cell_len; l++)
+                                tmpByte |= mask[k * mask_cell_len + l];
+                            if (tmpByte == 0)
+                                continue;
+
+                            tmpBool = true;
+                            for (int l = 0; l < mask_cell_len && tmpBool; l++)
+                                if ((clueMask[l] | mask[k * mask_cell_len + l]) !=
+                                    clueMask[l])
+                                    tmpBool = false;
+                            /* found non-clue*/
+                            if (!tmpBool)
+                            {   
+                                isAnyUpdate = true;
+                                for (int l = 0; l < mask_cell_len; l++)
+                                    mask[k * mask_cell_len + l] &=
+                                        (~clueMask[l]);
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                /* column scan */
+                sIdx = i % length;
+                eIdx = sizegrid - (length - (i % length)) + 1;
+                cluecounter = 0;
+                for (int j = sIdx; j < eIdx; j += length)
+                {
+                    /* excluding mask = 0 */
+                    tmpByte = 0;
+                    for (int k = 0; k < mask_cell_len; k++)
+                        tmpByte |= mask[j * mask_cell_len + k];
+                    if (tmpByte == 0)
+                        continue;
+                    
+                    tmpBool = true;
+                    for (int k = 0; k < mask_cell_len && tmpBool; k++)
+                        if ((clueMask[k] | mask[j * mask_cell_len + k]) !=
+                            clueMask[k])
+                            tmpBool = false;
+                    if (tmpBool)
+                        cluecounter++;
+                    
+                    if (cluecounter >= ie)
+                    {
+                        /* scan the column and eliminate non-clues */
+                        for (int k = sIdx; k < eIdx; k += length)
+                        {
+                            tmpByte = 0;
+                            for (int l = 0; l < mask_cell_len; l++)
+                                tmpByte |= mask[k * mask_cell_len + l];
+                            if (tmpByte == 0)
+                                continue;
+
+                            tmpBool = true;
+                            for (int l = 0; l < mask_cell_len && tmpBool; l++)
+                                if ((clueMask[l] | mask[k * mask_cell_len + l]) !=
+                                    clueMask[l])
+                                    tmpBool = false;
+                            
+                            /* found non-clue*/
+                            if (!tmpBool)
+                            {    
+                                isAnyUpdate = true;
+                                for (int l = 0; l < mask_cell_len; l++)
+                                    mask[k * mask_cell_len + l] &=
+                                        (~clueMask[l]);
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                /* block scan */
+                unsigned int block_y = (i / length) / blocklength + 1;
+                unsigned int block_x = (i % length) / blocklength + 1;
+                cluecounter = 1;
+                for (int y = (block_y - 1) * blocklength;
+                    y < block_y * blocklength; y++)
+                    for (int x = (block_x - 1) * blocklength;
+                        x < block_x * blocklength; x++)
+                    {
+                        /* excluding mask = 0 */
+                        tmpByte = 0;
+                        for (int k = 0; k < mask_cell_len; k++)
+                            tmpByte |= mask[y * length * mask_cell_len +
+                                x * mask_cell_len + k];
+                        if (tmpByte == 0)
+                            continue;
+
+                        tmpBool = true;
+                        for (int k = 0; k < mask_cell_len && tmpBool; k++)
+                            if ((clueMask[k] | mask[y * length * mask_cell_len +
+                                x * mask_cell_len + k]) != clueMask[k])
+                                tmpBool = false;
+                        if (tmpBool)
+                            cluecounter++;
+                    }
+                if (cluecounter >= ie)
+                {
+                    /* scan the block and eliminate non-clues */
+                    for (int y = (block_y - 1) * blocklength;
+                        y < block_y * blocklength; y++)
+                        for (int x = (block_x - 1) * blocklength;
+                            x < block_x * blocklength; x++)
+                        {
+                            tmpByte = 0;
+                            for (int l = 0; l < mask_cell_len; l++)
+                                tmpByte |= mask[y * length * mask_cell_len +
+                                    x * mask_cell_len + l];
+                            if (tmpByte != 0)
+                                continue;
+
+                            tmpBool = true;
+                            for (int l = 0; l < mask_cell_len && tmpBool; l++)
+                                if ((clueMask[l] | mask[y * length * mask_cell_len +
+                                    x * mask_cell_len + l]) != clueMask[l])
+                                    tmpBool = false;
+                            /* found non-clue*/
+                            if (!tmpBool)
+                            {    
+                                isAnyUpdate = true;
+                                for (int l = 0; l < mask_cell_len; l++)
+                                    mask[y * length * mask_cell_len +
+                                        x * mask_cell_len + l] &= (~clueMask[l]);
+                            }
+                        }
+                }
+            }
+            return isAnyUpdate;
         }
 
         /**
