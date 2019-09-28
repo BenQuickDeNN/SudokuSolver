@@ -413,6 +413,8 @@ typedef unsigned char byte;
                 if (tmpLat <= length && tmpLat >= 1)
                 {
                     lattices[i] = tmpLat;
+                    std::printf("fill row %d, col %d with %d\r\n",
+                        i / length + 1, i % length + 1, tmpLat);
                     update_row_mask( i / length + 1);
                     update_col_mask(i % length + 1);
                     update_block_mask((i / length) / blocklength + 1,

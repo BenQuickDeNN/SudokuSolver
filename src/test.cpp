@@ -82,6 +82,7 @@ void test3()
     sds::Grid* grid = sds::CSVtoGrid("bin/example/002.csv");
     if (grid == nullptr)
         return;
+    /*
     std::printf("print csv matrix:\r\n");
     for (int i = 0; i < 9; i++)
     {
@@ -90,10 +91,11 @@ void test3()
         std::printf("\r\n");
     }
     std::printf("grid length = %d\r\n", grid->Length());
+    */
     /* test update mask */
     grid->initializeMask();
     
-    
+    /*
     std::printf("print digit mask:\r\n");
     for (char digit = 1; digit <= grid->Length(); digit++)
     {
@@ -105,6 +107,7 @@ void test3()
             std::printf("\r\n");
         }
     }
+    */
     
     /*
     std::printf("print tiled digit mask:\r\n");
@@ -127,26 +130,18 @@ void test3()
     unsigned int ie = 2;
     while (true)
     {
-        while(grid->fill()) { std::printf("fill blanks...\r\n"); }
+        while(grid->fill()) { /*std::printf("fill blanks...\r\n");*/ }
         if (grid->isCompleted())
             break;
         if (grid->excluding(ie))
         {
-            std::printf("exclude mask; ie = %d...\r\n", ie);
+            //std::printf("exclude mask; ie = %d...\r\n", ie);
             ie = 2;
             continue;
         }
         ie++;
         if (ie > grid->Length())
             break;
-    }
-
-    std::printf("print grid:\r\n");
-    for (int i = 0; i < 9; i++)
-    {
-        for (int j = 0; j < 9; j++)
-            std::printf("%d,", (*grid)(i, j));
-        std::printf("\r\n");
     }
 
     /*
@@ -163,7 +158,8 @@ void test3()
     }
     */
 
-   unsigned int tmpNum;
+    /*
+    unsigned int tmpNum;
     std::printf("print tiled digit mask:\r\n");
     for (int i = 0; i < grid->Length(); i++)
     {
@@ -178,9 +174,19 @@ void test3()
         }
         std::printf("\r\n");
     }
+    */
 
     if (grid->isCompleted())
-        std::printf("the sudoku is compelted\r\n");
+    {
+        std::printf("the sudoku is compeleted\r\n");
+        std::printf("the solution is:\r\n");
+        for (int i = 0; i < 9; i++)
+        {
+            for (int j = 0; j < 9; j++)
+                std::printf("%d,", (*grid)(i, j));
+            std::printf("\r\n");
+        }
+    }
     else
-        std::printf("the solution of the sudoku may be multiple, try exhaustive method...\r\n");
+        std::fprintf(stderr, "bad sudoku: the solution of the sudoku may be multiple\r\n");
 }
