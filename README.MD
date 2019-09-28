@@ -125,8 +125,13 @@ notes:
 1,0,0,0,0,6,9,0,0
 3,0,0,0,4,0,0,8,0
 ```
-003.csv (difficulty = easy)
-
+003.csv
+```
+0,1,4,2
+0,0,1,0
+0,2,0,4
+0,3,0,1
+```
 note: '0' in csv file represents "empty".
 
 ## FSM of CSV File Reader
@@ -142,4 +147,35 @@ graph LR
 
     S2--digit-->S2
     S2--','/space/enter/EOF-->DIGIT
+```
+
+## CLI Handler
+### Lexer
+```mermaid
+graph LR
+    START--'-'-->S1
+    START--letter-->S3
+    START--digit-->S4
+    START--'='-->EQUAL
+
+    S1--'-'-->S6
+    S1--letter-->S7
+
+    S2--letter/'-'/'underline'/digit-->S2
+    S2--'='/'\0'-->PARAM
+
+    S3--letter/'-'/'/'/'.'/underline/digit-->S3
+    S3--'\0'-->STRING
+
+    S4--digit-->S4
+    S4--'.'-->S5
+    S4--'\0'-->INTEGER
+
+    S5--digit-->S5
+    S5--'\0'-->FLOAT
+
+    S6--letter-->S2
+
+    S7--letter/'-'/'underline'/digit-->S7
+    S7--'\0'-->SHORT_PARAM
 ```
