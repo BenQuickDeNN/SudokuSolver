@@ -67,27 +67,22 @@ namespace sds
          { std::fprintf(stderr, "lexxing error: %s in line %d, col %d\r\n", info, line, col); }
 
     public:
-
         /**
          * @brief reset content index
          * You should call this function
          * before starting new lexing.
         */
         void resetIdx();
-
         /**
          * @brief get token in csv file
          * @return digital token or tokType
         */
         int getCSVTok();
-
         /**
          * @brief constructor that inputs content
          * @param content conttent text
         */
-        CSVLexer(const std::string& content)
-            : content(content)
-        { }
+        CSVLexer(const std::string& content) : content(content) { }
     };
 
     void CSVLexer::resetIdx()

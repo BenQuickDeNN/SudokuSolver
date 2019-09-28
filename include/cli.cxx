@@ -1,73 +1,43 @@
 /*******************************************
  * @title   CLI handler
- * @brief   handle CLI command
+ * @brief   handle CLI command & infomation
  * @author  Bin Qu
  * @date    2019.9.28
  * @copyright   You can edit and remodify
  * this file.
 *******************************************/
 
+#ifndef CLI_MESSAGE_H
+#define CLI_MESSAGE_H
+#include "cli_message.h"
+#endif
+
+#include <cstdio>
+
 namespace sds
 {
     /**
-     * @brief token for cli command
+     * @brief display help info in CLI
     */
-    enum CLITokType
-    {
-        tok_invalid = -1,
-        tok_equal = -2,
-        tok_param = -3,
-        tok_string = -4,
-        tok_integer = -5,
-        tok_float = -6,
-        tok_short_param = -7
-    };
-
+    static void showHelpInfo();
     /**
-     * @brief 
+     * @brief display version info in CLI
     */
-    enum CLIState
-    {
-
-    };
-
+    static void showVersionInfo();
     /**
-     * @brief lexer for cli command
+     * @brief display invalid info in CLI
     */
-    class CLILexer
+    static void showInvalidCLIInfo();
+
+    static void showHelpInfo()
+    { std::printf("%s", CLI_HELP.c_str()); }
+
+    static void showVersionInfo()
+    { std::printf("%s", CLI_VERSION.c_str()); }
+
+    static void showInvalidCLIInfo()
     {
-    private:
-        /**
-         * @brief argument value
-        */
-        char* argv;
-    public:
-
-        
-
-        /**
-         * @brief constructor
-         * @param argc the count of cli arguments
-         * @param argv the values of cli arguments
-        */
-        CLILexer(char* argv)
-            : argv(argv)
-        {}
-    };
-
-    /**
-     * @brief abstract tree for cli command
-    */
-    class CLIAST
-    {
-
-    };
-
-    /**
-     * @brief perform action based on CLIAST
-    */
-    class CLIAction
-    {
-
-    };
+        std::printf("%s", CLI_INVALID_INFO.c_str());
+        showHelpInfo();
+    }
 }

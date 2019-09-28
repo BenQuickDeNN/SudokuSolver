@@ -55,9 +55,7 @@ typedef unsigned char byte;
         */
         unsigned int blocklength;
     public:
-
         const unsigned int& Length() {return length;}
-
         unsigned int Size() {return length * length;}
 
         const unsigned int& BlockLength()
@@ -111,19 +109,16 @@ typedef unsigned char byte;
          * solving problem.
         */
         void initializeMask();
-
         /**
          * @brief update the a row of mask.
          * @param row row number.
         */
         void update_row_mask(unsigned int row);
-
         /**
          * @brief update column mask
          * @@param col column number
         */
         void update_col_mask(unsigned int col);
-
         /**
          * @brief update mask trough block
          * @param block_y y axis of block
@@ -131,20 +126,17 @@ typedef unsigned char byte;
         */
         void update_block_mask(unsigned int block_y,
             unsigned int block_x);
-
         /**
          * @brief fill blanks that only conains one
          * candidate.
          * @return is update?
         */
         bool fill();
-
         /**
          * @brief judge if a sudoku is completed
          * @return is the sudoku completed?
         */
         bool isCompleted();
-
         /**
          * @brief use i-excluding algorithm to further modify
          * mask.
@@ -152,42 +144,16 @@ typedef unsigned char byte;
          * @return is any update?
         */
         bool excluding(const unsigned int& ie);
-
         /**
          * @brief constructor that allocates
          * memory
         */
-        Grid(const unsigned int& length,
-            const unsigned int& blocklength)
-            :length(length), blocklength(blocklength)
-        {
-            /* allocate memory for lattices */
-            lattices = (char*)std::malloc(
-                Size() * sizeof(char));
-            /* set zero */
-            for (int i = 0; i < Size(); i++)
-                lattices[i] = 0;
-
-            /* allocate memory for mask */
-            mask_cell_len = my_ceil(length, len_byte);
-            mask_len = Size() * mask_cell_len;
-            mask = (byte*)std::malloc(mask_len *
-                sizeof(byte));
-            /* set true */
-            for (int i = 0; i < mask_len; i++)
-                mask[i] = 0xFF;
-        }
-
+        Grid(const unsigned int& length, const unsigned int& blocklength);
         /**
          * @brief deconstructor that frees
          * memory
         */
-        ~Grid()
-        {
-            /* free memory */
-            std::free(lattices);
-            std::free(mask);
-        }
+        ~Grid();
     };
 
     inline void Grid::setMaskBit(const unsigned int& i, const byte& digit,
@@ -658,5 +624,33 @@ typedef unsigned char byte;
             }
         }
         return isAnyUpdate;
+    }
+
+    Grid::Grid(const unsigned int& length,
+        const unsigned int& blocklength)
+        :length(length), blocklength(blocklength)
+    {
+        /* allocate memory for lattices */
+        lattices = (char*)std::malloc(
+            Size() * sizeof(char));
+        /* set zero */
+        for (int i = 0; i < Size(); i++)
+            lattices[i] = 0;
+
+        /* allocate memory for mask */
+        mask_cell_len = my_ceil(length, len_byte);
+        mask_len = Size() * mask_cell_len;
+        mask = (byte*)std::malloc(mask_len *
+            sizeof(byte));
+        /* set true */
+        for (int i = 0; i < mask_len; i++)
+            mask[i] = 0xFF;
+    }
+
+    Grid::~Grid()
+    {
+        /* free memory */
+        std::free(lattices);
+        std::free(mask);
     }
 }
