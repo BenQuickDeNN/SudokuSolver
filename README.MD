@@ -125,6 +125,8 @@ notes:
 1,0,0,0,0,6,9,0,0
 3,0,0,0,4,0,0,8,0
 ```
+003.csv (difficulty = easy)
+
 note: '0' in csv file represents "empty".
 
 ## FSM of CSV File Reader

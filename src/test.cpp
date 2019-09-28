@@ -79,19 +79,20 @@ void test2()
 /* test for csv reader */
 void test3()
 {
-    sds::Grid* grid = sds::CSVtoGrid("bin/example/002.csv");
+    sds::Grid* grid = sds::CSVtoGrid("bin/example/003.csv");
     if (grid == nullptr)
         return;
-    /*
+    
     std::printf("print csv matrix:\r\n");
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < grid->Length(); i++)
     {
-        for (int j = 0; j < 9; j++)
+        for (int j = 0; j < grid->Length(); j++)
             std::printf("%d,", (*grid)(i, j));
         std::printf("\r\n");
     }
+    
     std::printf("grid length = %d\r\n", grid->Length());
-    */
+    
     /* test update mask */
     grid->initializeMask();
     
@@ -180,9 +181,9 @@ void test3()
     {
         std::printf("the sudoku is compeleted\r\n");
         std::printf("the solution is:\r\n");
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < grid->Length(); i++)
         {
-            for (int j = 0; j < 9; j++)
+            for (int j = 0; j < grid->Length(); j++)
                 std::printf("%d,", (*grid)(i, j));
             std::printf("\r\n");
         }

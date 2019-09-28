@@ -205,7 +205,7 @@ namespace sds
                 idx++;
             }
         }
-        std::printf("csv lexing done.\r\n");
+        std::printf("csv lexing done, the number of digits = %d.\r\n", idx);
         /* check if the grid is a square? */
         if (
             idx != 4*4 && idx != 9*9 && idx != 16*16 &&
