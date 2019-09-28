@@ -64,7 +64,7 @@ namespace sds
          * @param info error information
         */
         void logError(std::string info)
-        { std::fprintf(stderr, "lexxing error: %s in line %d, col %d\r\n", info, line, col); }
+         { std::fprintf(stderr, "lexxing error: %s in line %d, col %d\r\n", info, line, col); }
 
     public:
 
@@ -174,6 +174,8 @@ namespace sds
             : content(content)
         { }
     };
+
+    
 
     /**
      * @brief convert csv data to grid entity

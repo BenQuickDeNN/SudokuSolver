@@ -452,10 +452,17 @@ typedef unsigned char byte;
                             /* found non-clue*/
                             if (!tmpBool)
                             {   
-                                isAnyUpdate = true;
+                                /* they must have intersection */
+                                tmpByte = 0;
                                 for (int l = 0; l < mask_cell_len; l++)
-                                    mask[k * mask_cell_len + l] &=
-                                        (~clueMask[l]);
+                                    tmpByte |= (clueMask[l] & mask[k * mask_cell_len + l]);
+                                if (tmpByte != 0)
+                                {
+                                    isAnyUpdate = true;
+                                    for (int l = 0; l < mask_cell_len; l++)
+                                        mask[k * mask_cell_len + l] &=
+                                            (~clueMask[l]);
+                                }
                             }
                         }
                         break;
@@ -502,11 +509,18 @@ typedef unsigned char byte;
                             
                             /* found non-clue*/
                             if (!tmpBool)
-                            {    
-                                isAnyUpdate = true;
+                            {   
+                                /* they must have intersection */
+                                tmpByte = 0;
                                 for (int l = 0; l < mask_cell_len; l++)
-                                    mask[k * mask_cell_len + l] &=
-                                        (~clueMask[l]);
+                                    tmpByte |= (clueMask[l] & mask[k * mask_cell_len + l]);
+                                if (tmpByte != 0)
+                                {
+                                    isAnyUpdate = true;
+                                    for (int l = 0; l < mask_cell_len; l++)
+                                        mask[k * mask_cell_len + l] &=
+                                            (~clueMask[l]);
+                                }
                             }
                         }
                         break;
@@ -516,7 +530,7 @@ typedef unsigned char byte;
                 /* block scan */
                 unsigned int block_y = (i / length) / blocklength + 1;
                 unsigned int block_x = (i % length) / blocklength + 1;
-                cluecounter = 1;
+                cluecounter = 0;
                 for (int y = (block_y - 1) * blocklength;
                     y < block_y * blocklength; y++)
                     for (int x = (block_x - 1) * blocklength;
@@ -550,7 +564,7 @@ typedef unsigned char byte;
                             for (int l = 0; l < mask_cell_len; l++)
                                 tmpByte |= mask[y * length * mask_cell_len +
                                     x * mask_cell_len + l];
-                            if (tmpByte != 0)
+                            if (tmpByte == 0)
                                 continue;
 
                             tmpBool = true;
@@ -560,11 +574,19 @@ typedef unsigned char byte;
                                     tmpBool = false;
                             /* found non-clue*/
                             if (!tmpBool)
-                            {    
-                                isAnyUpdate = true;
+                            {   
+                                /* they must have intersection */
+                                tmpByte = 0;
                                 for (int l = 0; l < mask_cell_len; l++)
-                                    mask[y * length * mask_cell_len +
-                                        x * mask_cell_len + l] &= (~clueMask[l]);
+                                    tmpByte |= (clueMask[l] & mask[y * length * mask_cell_len +
+                                    x * mask_cell_len + l]);
+                                if (tmpByte != 0)
+                                {
+                                    isAnyUpdate = true;
+                                    for (int l = 0; l < mask_cell_len; l++)
+                                        mask[y * length * mask_cell_len +
+                                            x * mask_cell_len + l] &= (~clueMask[l]);
+                                }
                             }
                         }
                 }

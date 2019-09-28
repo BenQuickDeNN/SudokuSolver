@@ -181,4 +181,6 @@ void test3()
 
     if (grid->isCompleted())
         std::printf("the sudoku is compelted\r\n");
+    else
+        std::printf("the solution of the sudoku may be multiple, try exhaustive method...\r\n");
 }
