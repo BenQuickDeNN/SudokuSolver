@@ -79,7 +79,7 @@ void test2()
 /* test for csv reader */
 void test3()
 {
-    sds::Grid* grid = sds::CSVtoGrid("bin/example/003.csv");
+    sds::Grid* grid = sds::CSVtoGrid("bin/example/002.csv");
     if (grid == nullptr)
         return;
     

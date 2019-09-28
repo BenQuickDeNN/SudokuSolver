@@ -149,7 +149,7 @@ graph LR
     S2--','/space/enter/EOF-->DIGIT
 ```
 
-## CLI Handler
+## CLI Handler (deprecated)
 ### Lexer
 ```mermaid
 graph LR
