@@ -73,98 +73,13 @@ namespace sds
          * You should call this function
          * before starting new lexing.
         */
-        void resetIdx() 
-        {
-            idx = 0;
-            line = 1;
-            col = 1;
-        }
+        void resetIdx();
 
         /**
          * @brief get token in csv file
          * @return digital token or tokType
         */
-        int getCSVTok()
-        {
-            if (idx >= content.size())
-                return CSVTokType::tok_eof;
-            std::string digitStr;
-            CSVState state = CSVState::START;
-            char lastChar;
-            while (idx < content.size())
-            {
-                lastChar = content.c_str()[idx];
-                idx++;
-                col++;
-                switch (state)
-                {
-                case CSVState::START:
-                    if (' ' == lastChar || '\t' == lastChar)
-                        state = CSVState::S1;
-                    else if (std::isdigit(lastChar))
-                    {
-                        state = CSVState::S2;
-                        digitStr = lastChar;
-                    }
-                    else if ('\n' == lastChar || EOF == lastChar)
-                    {
-                        line++;
-                        col = 1;
-                        return CSVTokType::tok_empty;
-                    }
-                    else
-                    {
-                        logError("invalid symbol " + lastChar);
-                        return CSVTokType::tok_invalid;
-                    }
-                    break;
-                case CSVState::S1:
-                    if (' ' == lastChar || '\t' == lastChar)
-                        break;
-                    else if (std::isdigit(lastChar))
-                    {
-                        state = CSVState::S2;
-                        digitStr = lastChar;
-                    }
-                    else if ('\n' == lastChar || EOF == lastChar)
-                    {
-                        line++;
-                        col = 1;
-                        return CSVTokType::tok_empty;
-                    }
-                    else
-                    {
-                        logError("invalid symbol " + lastChar);
-                        return CSVTokType::tok_invalid;
-                    }
-                    break;
-                case CSVState::S2:
-                    if (std::isdigit(lastChar))
-                        digitStr += lastChar;
-                    else if (',' == lastChar ||
-                        ' ' == lastChar || '\n' == lastChar ||
-                        EOF == lastChar)
-                    {
-                        if ('\n' == lastChar)
-                        {
-                            line++;
-                            col = 1;
-                        }
-                        return std::stoi(digitStr);
-                    }
-                    else
-                    {
-                        logError("invalid symbol " + lastChar);
-                        return CSVTokType::tok_invalid;
-                    }
-                    break;
-                default:
-                    logError("unknown state");
-                    return CSVTokType::tok_invalid;
-                }
-            }
-            return CSVTokType::tok_empty;
-        }
+        int getCSVTok();
 
         /**
          * @brief constructor that inputs content
@@ -175,7 +90,94 @@ namespace sds
         { }
     };
 
-    
+    void CSVLexer::resetIdx()
+    {
+        idx = 0;
+        line = 1;
+        col = 1;
+    }
+
+    int CSVLexer::getCSVTok()
+    {
+        if (idx >= content.size())
+            return CSVTokType::tok_eof;
+        std::string digitStr;
+        CSVState state = CSVState::START;
+        char lastChar;
+        while (idx < content.size())
+        {
+            lastChar = content.c_str()[idx];
+            idx++;
+            col++;
+            switch (state)
+            {
+            case CSVState::START:
+                if (' ' == lastChar || '\t' == lastChar)
+                    state = CSVState::S1;
+                else if (std::isdigit(lastChar))
+                {
+                    state = CSVState::S2;
+                    digitStr = lastChar;
+                }
+                else if ('\n' == lastChar || EOF == lastChar)
+                {
+                    line++;
+                    col = 1;
+                    return CSVTokType::tok_empty;
+                }
+                else
+                {
+                    logError("invalid symbol " + lastChar);
+                    return CSVTokType::tok_invalid;
+                }
+                break;
+            case CSVState::S1:
+                if (' ' == lastChar || '\t' == lastChar)
+                    break;
+                else if (std::isdigit(lastChar))
+                {
+                    state = CSVState::S2;
+                    digitStr = lastChar;
+                }
+                else if ('\n' == lastChar || EOF == lastChar)
+                {
+                    line++;
+                    col = 1;
+                    return CSVTokType::tok_empty;
+                }
+                else
+                {
+                    logError("invalid symbol " + lastChar);
+                    return CSVTokType::tok_invalid;
+                }
+                break;
+            case CSVState::S2:
+                if (std::isdigit(lastChar))
+                    digitStr += lastChar;
+                else if (',' == lastChar ||
+                    ' ' == lastChar || '\n' == lastChar ||
+                    EOF == lastChar)
+                {
+                    if ('\n' == lastChar)
+                    {
+                        line++;
+                        col = 1;
+                    }
+                    return std::stoi(digitStr);
+                }
+                else
+                {
+                    logError("invalid symbol " + lastChar);
+                    return CSVTokType::tok_invalid;
+                }
+                break;
+            default:
+                logError("unknown state");
+                return CSVTokType::tok_invalid;
+            }
+        }
+        return CSVTokType::tok_empty;
+    }
 
     /**
      * @brief convert csv data to grid entity
