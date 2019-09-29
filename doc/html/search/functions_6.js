@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['length',['Length',['../classsds_1_1_grid.html#a606e696b52a59a3e003662693b408bdc',1,'sds::Grid']]],
-  ['logerror',['logError',['../classsds_1_1_c_s_v_lexer.html#af05d30d87f97e8a6e5596413437e489c',1,'sds::CSVLexer']]]
+  ['initializemask',['initializeMask',['../classsds_1_1_grid.html#a75961b73274daab0d6e7f68ced4e70fd',1,'sds::Grid']]],
+  ['iscompleted',['isCompleted',['../classsds_1_1_grid.html#a3f3f032c73cd90976d7a789f4059a6b7',1,'sds::Grid']]]
 ];

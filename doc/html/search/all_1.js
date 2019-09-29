@@ -1,7 +1,21 @@
 var searchData=
 [
-  ['block',['Block',['../classsds_1_1_grid.html#acc98e57ad6f7b2ed45e67baf1522100a',1,'sds::Grid']]],
-  ['blocklength',['BlockLength',['../classsds_1_1_grid.html#a1504a07a2c0d0ada2dc5b26e47bdd0de',1,'sds::Grid::BlockLength()'],['../classsds_1_1_grid.html#a2b6723f781ff7576a6075121393e62e7',1,'sds::Grid::blocklength()']]],
-  ['blocksize',['BlockSize',['../classsds_1_1_grid.html#ac621b1620c7bbec329333b18154a46f0',1,'sds::Grid']]],
-  ['byte',['byte',['../namespacesds.html#aaa523e012372f8afa688663792f6663d',1,'sds']]]
+  ['celebratebirthday',['celebrateBirthDay',['../namespacesds.html#a7fda56a6a8e67550bd985af17dc249d7',1,'sds']]],
+  ['cli_2ecxx',['cli.cxx',['../cli_8cxx.html',1,'']]],
+  ['cli_2eh',['cli.h',['../cli_8h.html',1,'']]],
+  ['cli_5fhelp',['CLI_HELP',['../cli__message_8h.html#adbd2d72f4bb7acb6e222f970037ee8b8',1,'cli_message.h']]],
+  ['cli_5finvalid_5finfo',['CLI_INVALID_INFO',['../cli__message_8h.html#a01859cc27114f6cc58028d449894724f',1,'cli_message.h']]],
+  ['cli_5fmessage_2eh',['cli_message.h',['../cli__message_8h.html',1,'']]],
+  ['cli_5fmessage_5fh',['CLI_MESSAGE_H',['../cli_8cxx.html#a99f673f8f6c09c593548945daa810c2b',1,'cli.cxx']]],
+  ['cli_5foptions_2eh',['cli_options.h',['../cli__options_8h.html',1,'']]],
+  ['cli_5foptions_5fh',['CLI_OPTIONS_H',['../sudoku__solver_8cpp.html#af041ee8afcdd7f088a9c69056bb00667',1,'sudoku_solver.cpp']]],
+  ['cli_5fversion',['CLI_VERSION',['../cli__message_8h.html#a734a3d11a22d4ecba9bdd4d65a03f60a',1,'cli_message.h']]],
+  ['col',['col',['../classsds_1_1_c_s_v_lexer.html#ad37aee65f401412e2c548972c3ed86c2',1,'sds::CSVLexer']]],
+  ['content',['content',['../classsds_1_1_c_s_v_lexer.html#a9328f299a6c05f01f0ca14a1dddd2246',1,'sds::CSVLexer']]],
+  ['csvlexer',['CSVLexer',['../classsds_1_1_c_s_v_lexer.html',1,'sds::CSVLexer'],['../classsds_1_1_c_s_v_lexer.html#a73d1a0def3c68848788e5e1a8b2ded9f',1,'sds::CSVLexer::CSVLexer()']]],
+  ['csvreader_2ecxx',['CSVreader.cxx',['../_c_s_vreader_8cxx.html',1,'']]],
+  ['csvreader_2eh',['CSVreader.h',['../_c_s_vreader_8h.html',1,'']]],
+  ['csvstate',['CSVState',['../namespacesds.html#a89dff61bd628693ed11aa209edd927ac',1,'sds']]],
+  ['csvtogrid',['CSVtoGrid',['../namespacesds.html#aff8765cce75538bb6d2e165238f6039a',1,'sds']]],
+  ['csvtoktype',['CSVTokType',['../namespacesds.html#a4a74e023b88752e5c65104e659c2c1b1',1,'sds']]]
 ];

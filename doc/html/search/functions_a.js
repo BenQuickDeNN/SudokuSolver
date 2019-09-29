@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['setmaskbit',['setMaskBit',['../classsds_1_1_grid.html#ac8d2bec910f5d4685a2698aaf19640ae',1,'sds::Grid']]],
-  ['size',['Size',['../classsds_1_1_grid.html#a289a33eeea902590278e7febd1dea678',1,'sds::Grid']]]
+  ['readtext',['readText',['../namespacesds.html#ae09164bcde7800d41d719d0083f277a9',1,'sds']]],
+  ['resetidx',['resetIdx',['../classsds_1_1_c_s_v_lexer.html#ae27d3436731cbca34ab06d209d3163a7',1,'sds::CSVLexer']]]
 ];

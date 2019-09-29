@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['lattices',['lattices',['../classsds_1_1_grid.html#aa37c92e10e20f50ca49716812e483f60',1,'sds::Grid']]],
-  ['len_5fbyte',['len_byte',['../classsds_1_1_grid.html#a1c35517fbbeb3c4ab2ef74f2d67c664f',1,'sds::Grid']]],
-  ['length',['length',['../classsds_1_1_grid.html#aa53d28d8df92160e28d7f740f6177351',1,'sds::Grid']]],
-  ['line',['line',['../classsds_1_1_c_s_v_lexer.html#a5e5ba7a4b545e487b49bcffbd66c68d0',1,'sds::CSVLexer']]]
+  ['mask',['mask',['../classsds_1_1_grid.html#a4b2f4e8b598d678d4bbadee016b938f4',1,'sds::Grid']]],
+  ['mask_5fcell_5flen',['mask_cell_len',['../classsds_1_1_grid.html#a241a64c1416463d4c44846f29148b68e',1,'sds::Grid']]],
+  ['mask_5flen',['mask_len',['../classsds_1_1_grid.html#abb60c2daeed618e587d9402601010cc4',1,'sds::Grid']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['excluding',['excluding',['../classsds_1_1_grid.html#a3ab0020f7118f15f5a01cbd81148ff51',1,'sds::Grid']]]
+  ['dispgrid',['dispGrid',['../classsds_1_1_grid.html#a479b5af10d85b410cb7d192f9acfbbc1',1,'sds::Grid']]]
 ];

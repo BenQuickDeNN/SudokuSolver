@@ -68,60 +68,75 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">cli.cxx File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><div class="dynheader">
+<div class="textblock"><code>#include &quot;<a class="el" href="cli__message_8h_source.html">cli_message.h</a>&quot;</code><br />
+<code>#include &lt;cstdio&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for cli.cxx:</div>
+<div class="dyncontent">
+<div class="center"><img src="cli_8cxx__incl.png" border="0" usemap="#_f_1_2projects_2_cpp_2_sudoku_solver_2include_2cli_8cxx" alt=""/></div>
+<map name="_f_1_2projects_2_cpp_2_sudoku_solver_2include_2cli_8cxx" id="_f_1_2projects_2_cpp_2_sudoku_solver_2include_2cli_8cxx">
+<area shape="rect" id="node2" href="cli__message_8h.html" title="cli_message.h" alt="" coords="5,95,112,121"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="cli_8cxx__dep__incl.png" border="0" usemap="#_f_1_2projects_2_cpp_2_sudoku_solver_2include_2cli_8cxxdep" alt=""/></div>
 <map name="_f_1_2projects_2_cpp_2_sudoku_solver_2include_2cli_8cxxdep" id="_f_1_2projects_2_cpp_2_sudoku_solver_2include_2cli_8cxxdep">
 <area shape="rect" id="node2" href="cli_8h.html" title="F:/projects/Cpp/SudokuSolver\l/include/cli.h" alt="" coords="5,95,200,136"/>
+<area shape="rect" id="node3" href="sudoku__solver_8cpp.html" title="F:/projects/Cpp/SudokuSolver\l/src/sudoku_solver.cpp" alt="" coords="5,184,200,225"/>
 </map>
 </div>
 </div>
 <p><a href="cli_8cxx_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsds_1_1_c_l_i_lexer.html">sds::CLILexer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">lexer for cli command  <a href="classsds_1_1_c_l_i_lexer.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsds_1_1_c_l_i_a_s_t.html">sds::CLIAST</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">abstract tree for cli command  <a href="classsds_1_1_c_l_i_a_s_t.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsds_1_1_c_l_i_action.html">sds::CLIAction</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">perform action based on <a class="el" href="classsds_1_1_c_l_i_a_s_t.html" title="abstract tree for cli command ">CLIAST</a>  <a href="classsds_1_1_c_l_i_action.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacesds"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesds.html">sds</a></td></tr>
 <tr class="memdesc:namespacesds"><td class="mdescLeft">&#160;</td><td class="mdescRight">namespace sudoku solver <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a15d57dd53e59fba3f3f4507a1788f012"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesds.html#a15d57dd53e59fba3f3f4507a1788f012">sds::CLITokType</a> { <br />
-&#160;&#160;<a class="el" href="namespacesds.html#a4a74e023b88752e5c65104e659c2c1b1a26704b9be267a481151b786574bf5dae">sds::tok_invalid</a> = -1, 
-<a class="el" href="namespacesds.html#a15d57dd53e59fba3f3f4507a1788f012abbfba2028a8b335623c021e7b0d782d0">sds::tok_equal</a> = -2, 
-<a class="el" href="namespacesds.html#a15d57dd53e59fba3f3f4507a1788f012a64d3a7049941eb10c18d25472d218dbe">sds::tok_param</a> = -3, 
-<a class="el" href="namespacesds.html#a15d57dd53e59fba3f3f4507a1788f012a3c5ebe2055bc2f6c1d958c6cab073270">sds::tok_string</a> = -4, 
-<br />
-&#160;&#160;<a class="el" href="namespacesds.html#a15d57dd53e59fba3f3f4507a1788f012a040a343ca67e30b79170f65d5ec00c08">sds::tok_integer</a> = -5, 
-<a class="el" href="namespacesds.html#a15d57dd53e59fba3f3f4507a1788f012a9dbd5a06fe72a4d8f9a705fc441e2054">sds::tok_float</a> = -6, 
-<a class="el" href="namespacesds.html#a15d57dd53e59fba3f3f4507a1788f012a4e6cdb11f8023eddcd27f66ff351d499">sds::tok_short_param</a> = -7
-<br />
- }</td></tr>
-<tr class="memdesc:a15d57dd53e59fba3f3f4507a1788f012"><td class="mdescLeft">&#160;</td><td class="mdescRight">token for cli command  <a href="namespacesds.html#a15d57dd53e59fba3f3f4507a1788f012">More...</a><br /></td></tr>
-<tr class="separator:a15d57dd53e59fba3f3f4507a1788f012"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac967a236f9ba95d934bc063f6ab8955f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesds.html#ac967a236f9ba95d934bc063f6ab8955f">sds::CLIState</a> </td></tr>
-<tr class="separator:ac967a236f9ba95d934bc063f6ab8955f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a99f673f8f6c09c593548945daa810c2b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cli_8cxx.html#a99f673f8f6c09c593548945daa810c2b">CLI_MESSAGE_H</a></td></tr>
+<tr class="separator:a99f673f8f6c09c593548945daa810c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a983f8a94b4f88d826d287bd501d5e4c0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesds.html#a983f8a94b4f88d826d287bd501d5e4c0">sds::showHelpInfo</a> ()</td></tr>
+<tr class="memdesc:a983f8a94b4f88d826d287bd501d5e4c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">display help info in CLI  <a href="namespacesds.html#a983f8a94b4f88d826d287bd501d5e4c0">More...</a><br /></td></tr>
+<tr class="separator:a983f8a94b4f88d826d287bd501d5e4c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f1bf9d52380d46582a2b854a7a96857"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesds.html#a8f1bf9d52380d46582a2b854a7a96857">sds::showVersionInfo</a> ()</td></tr>
+<tr class="memdesc:a8f1bf9d52380d46582a2b854a7a96857"><td class="mdescLeft">&#160;</td><td class="mdescRight">display version info in CLI  <a href="namespacesds.html#a8f1bf9d52380d46582a2b854a7a96857">More...</a><br /></td></tr>
+<tr class="separator:a8f1bf9d52380d46582a2b854a7a96857"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0abc7827568e8a626679b3138b368214"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesds.html#a0abc7827568e8a626679b3138b368214">sds::showInvalidCLIInfo</a> ()</td></tr>
+<tr class="memdesc:a0abc7827568e8a626679b3138b368214"><td class="mdescLeft">&#160;</td><td class="mdescRight">display invalid info in CLI  <a href="namespacesds.html#a0abc7827568e8a626679b3138b368214">More...</a><br /></td></tr>
+<tr class="separator:a0abc7827568e8a626679b3138b368214"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a99f673f8f6c09c593548945daa810c2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99f673f8f6c09c593548945daa810c2b">&#9670;&nbsp;</a></span>CLI_MESSAGE_H</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CLI_MESSAGE_H</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="cli_8cxx_source.html#l00011">11</a> of file <a class="el" href="cli_8cxx_source.html">cli.cxx</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
