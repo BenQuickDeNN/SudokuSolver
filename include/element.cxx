@@ -145,6 +145,10 @@ typedef unsigned char byte;
         */
         bool excluding(const unsigned int& ie);
         /**
+         * @brief display grid
+        */
+        void dispGrid();
+        /**
          * @brief constructor that allocates
          * memory
         */
@@ -379,7 +383,7 @@ typedef unsigned char byte;
                 if (tmpLat <= length && tmpLat >= 1)
                 {
                     lattices[i] = tmpLat;
-                    std::printf("fill row %d, col %d with %d\r\n",
+                    std::printf("Fill row %d, col %d with %d\r\n",
                         i / length + 1, i % length + 1, tmpLat);
                     update_row_mask( i / length + 1);
                     update_col_mask(i % length + 1);
@@ -624,6 +628,23 @@ typedef unsigned char byte;
             }
         }
         return isAnyUpdate;
+    }
+
+    void Grid::dispGrid()
+    {
+        for (int i = 0; i < length; i++)
+        {
+            for (int j = 0; j < length; j++)
+            {
+                if (j == length - 1)
+                {
+                    std::printf("%d", lattices[i * length + j]);
+                    continue;
+                }
+                std::printf("%d,", lattices[i * length + j]);
+            }
+            std::printf("\r\n");
+        }
     }
 
     Grid::Grid(const unsigned int& length,
