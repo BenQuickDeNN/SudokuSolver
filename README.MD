@@ -1,4 +1,4 @@
-A project developed by Bin Qu to automatically solves Sudoku.
+A project developed by Bin Qu to automatically solve Sudoku.
 
 # Algorithm
 ## Main Structure
