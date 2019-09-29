@@ -1,6 +1,6 @@
 A project developed by Bin Qu to automatically solve Sudoku.
 
-For more information, see [docs](https://benquickdenn.github.io/SudokuSolver/).
+For more information, see [docs](https://benquickdenn.github.io/SudokuSolver/html/).
 
 # Algorithm
 ## Main Structure
