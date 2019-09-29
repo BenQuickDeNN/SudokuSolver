@@ -1,5 +1,7 @@
 A project developed by Bin Qu to automatically solve Sudoku.
 
+For more information, see <doc/html/index.html>
+
 # Algorithm
 ## Main Structure
 ```mermaid
