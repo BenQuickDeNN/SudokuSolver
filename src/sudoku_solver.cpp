@@ -85,6 +85,7 @@ int main(int argc, char** argv)
         unsigned int ie = 2;
         while (true)
         {
+            /* kernel */
             while(grid->fill()) { }
             if (grid->isCompleted())
                 break;
